@@ -12,7 +12,7 @@ import { defineConfig, devices } from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  timeout:30_000,  //test timeout
+  timeout: 30_000,  //test timeout
   globalTimeout: 10 * 60 * 1000,  // All tests duration
   testDir: './tests',
   /* Run tests in files in parallel */
@@ -29,30 +29,37 @@ export default defineConfig({
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
     baseURL: 'https://practicesoftwaretesting.com/',
+    testIdAttribute: 'data-test',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on',
-    actionTimeout:0,
-    ignoreHTTPSErrors:true,
+    ignoreHTTPSErrors: true,
     video: 'retain-on-failure',
-    screenshot:'only-on-failure',
+    screenshot: 'only-on-failure',
     headless: true
   },
 
   /* Configure projects for major browsers */
   projects: [
     {
+      name: 'setup',
+      testMatch: /.*\.setup\.ts/,
+    },
+    {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      dependencies: ['setup'],
+      use: { ...devices['Desktop Chrome'], permissions: ["clipboard-read"] },
     },
 
     // {
     //   name: 'firefox',
+    // dependencies:['setup'],
     //   use: { ...devices['Desktop Firefox'] },
     // },
 
     // {
     //   name: 'webkit',
+    //   dependencies:['setup'],
     //   use: { ...devices['Desktop Safari'] },
     // },
 
