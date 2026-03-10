@@ -2,9 +2,9 @@ import { test, expect } from '@playwright/test'
 
 import { LoginPage } from '../../lib/pages/login.page'
 
-const email = 'customer2@practicesoftwaretesting.com'
-const password = 'welcome01'
-const username = 'Jack Howe'
+const email = process.env.EMAIL_CUSTOMER02!
+const password = process.env.PASSWORD_CUSTOMER02!
+const username = process.env.USERNAME_CUSTOMER02!
 
 
 test.describe('Login tests', async () => {
