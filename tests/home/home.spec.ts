@@ -7,9 +7,6 @@ test.describe('Home page with no auth', () => {
     await page.goto('https://practicesoftwaretesting.com/')
   })
 
-  test.afterAll(async ({ browser }) => {
-    await browser.close()
-  })
   test('Check sign in', async ({ page }) => {
     await expect(page.getByTestId('nav-sign-in')).toBeVisible()
   })
@@ -33,23 +30,22 @@ test.describe('Home page with no auth', () => {
 
     // Resultant Data table loaded 
     await expect(page.getByTestId('search_completed')).toBeVisible()
-    await expect(page.locator('[data-test="search-caption"]')).toContainText('Searched for: Thor Hammer');
+    await expect(page.locator('[data-test="search-caption"]')).toContainText('Searched for: Thor Hammer')
     await expect(products.getByRole('link')).toHaveCount(1)
-    await expect(page.locator('.col-md-9 .card').getByText('Thor Hammer')).toBeVisible();
+    await expect(page.locator('.col-md-9 .card').getByText('Thor Hammer')).toBeVisible()
     await expect(page.getByAltText('Thor Hammer')).toBeVisible()
     // await expect(page.locator('[data-test="product-name"]')).toContainText('Thor Hammer');
   })
 
 
   test('Visual test', async ({ page }) => {
-    await page.waitForLoadState('networkidle')
+    await page.waitForLoadState('load')
     await expect(page).toHaveScreenshot('home-page-no-auth.png', { mask: [page.getByTitle('Practice Software Testing - Toolshop')] })
-
   })
 })
 
 test.describe('home page customer 01 auth', () => {
-  //Applying the storage state created by auth.setip.ts
+  //Applying the storage state created by auth.setup.ts
   test.use({ storageState: '.auth/customer01.json' })
 
   test.beforeEach(async ({ page }) => {

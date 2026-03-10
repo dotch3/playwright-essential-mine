@@ -12,7 +12,12 @@ import { defineConfig, devices } from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  timeout: 30_000,  //test timeout
+  // Timeour for a test execution, byd efsault 30_0000
+  timeout: 30_000,
+  // timeout for ASSERTS, by default 5_000
+  expect: {
+    timeout: 5_0000
+  },
   globalTimeout: 10 * 60 * 1000,  // All tests duration
   testDir: './tests',
   /* Run tests in files in parallel */
@@ -24,7 +29,7 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [['html'], ['list']],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
@@ -36,7 +41,11 @@ export default defineConfig({
     ignoreHTTPSErrors: true,
     video: 'retain-on-failure',
     screenshot: 'only-on-failure',
-    headless: true
+    headless: true,
+    // time for iterative actions: click(), fill(), etc
+    actionTimeout: 5_000,
+    // time for navigate like goto(), waitforURL(), etc
+    navigationTimeout: 10_000
   },
 
   /* Configure projects for major browsers */
